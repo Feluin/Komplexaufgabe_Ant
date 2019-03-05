@@ -5,17 +5,20 @@ import sample.SettingsProperties;
 
 public class Ant {
 
-    private Double sim;
+    private AntSimulation sim;
     private Vec pos;
     private Double angle;
     private Double speed;
-    private int stomach;
+    private Double stomach;
     private int homeRecency;
     private int age;
 
+    public Vec getPos() {
+        return pos;
+    }
 
     //sim ist die die Größte der UI
-    public Ant(Double sim, Vec pos) {
+    public Ant(AntSimulation sim, Vec pos) {
         this.sim = sim;
         this.pos = pos != null ? pos : new Vec();
         this.angle = Math.random() * Math.PI * 2;
@@ -23,7 +26,7 @@ public class Ant {
         SettingsProperties.instance.scaling.addListener((observableValue, oldNumber, newNumber) -> {
             this.speed = (Math.random() * 0.2 + 0.8) * newNumber.intValue() * 0.4;
         });
-        this.stomach = 0;
+        this.stomach = 0D;
         this.homeRecency = 0;
         this.age = 0;
     }
@@ -48,38 +51,38 @@ public class Ant {
 
     public Vec update() {
         Vec boundPos;
-        Double jitterAmount, reading;
-        int newStomach;
+        Double jitterAmount, reading, newStomach;
 
         this.age++;
-        this.stomach *= 1 - sample.SettingsProperties.instance.getFoodTrailFalloffRate();
-        this.homeRecency *= 1 - sample.SettingsProperties.instance.getNestFalloffRate();
+        this.stomach *= 1 - SettingsProperties.instance.foodTrailFadeRate.getValue().doubleValue();
+        this.homeRecency *= 1 - SettingsProperties.instance.nestTrailFadeRate.getValue().doubleValue();
         if (this.isInNest()) {
-            this.stomach = 0;
+            this.stomach = 0D;
             this.homeRecency = 1;
 
         }
-        newStomach = this.stomach + this.sim.layer.food.take(this.pos, 1);
+        newStomach = this.stomach + this.sim.getFoodLayer().take(this.pos, 1D);
+        stomach = newStomach;
         if (this.isHunting()) {
-            reading = this.sniff(this.sim.layer.food);
+            reading = this.sniff(this.sim.getFoodLayer());
             if (reading == 0) {
-                reading = this.sniff(this.sim.layer.food);
+                reading = this.sniff(this.sim.getFoodTrailLayer());
             }
         } else {
-            reading = this.sniff(this.sim.layers.nesttrail);
+            reading = this.sniff(this.sim.getNestTrailLayer());
         }
-        this.sim.layers.foodtrail.mark(this.pos, this.stomach * 0.01);
-        this.sim.layers.nesttrail.mark(this.pos, this.homeRecency * 0, 1);
+        this.sim.getFoodTrailLayer().mark(this.pos, this.stomach * 0.01);
+        this.sim.getNestTrailLayer().mark(this.pos, this.homeRecency * 0.1);
         if (reading > 0) {
-            this.angle += sample.SettingsProperties.instance.getAntTurnSpeed();
+            this.angle += SettingsProperties.instance.antTurnSpeed.getValue().doubleValue();
         }
         if (reading < 0) {
-            this.angle -= sample.SettingsProperties.instance.getAntTurnSpeed();
+            this.angle -= sample.SettingsProperties.instance.antTurnSpeed.getValue().doubleValue();
         }
-        jitterAmount = Math.max(0, 1 - this.sim.layers.foodtrail.sample(this.pos));
-        this.angle += (Math.random() - 0.5) * 2 * jitterAmount * sample.SettingsProperties.instance.getJitterMagnitude();
+        jitterAmount = Math.max(0, 1 - this.sim.getFoodTrailLayer().sample(this.pos));
+        this.angle += (Math.random() - 0.5) * 2 * jitterAmount * SettingsProperties.instance.jitterMagnitude.getValue().intValue();
         this.pos.add(Vec.fromAngleDist(this.angle, this.speed));
-        boundPos = this.pos.get().bound(0, 0, 0, this.sim.w, this.sim.h, 0);
+        boundPos = this.pos.get().bound(0D, 0d, 0d, SettingsProperties.instance.getCanvasHeightInt().doubleValue(), SettingsProperties.instance.getCanvasWidthInt().doubleValue(), 0d);
         if (!boundPos.eq(this.pos)) {
             this.angle = Math.random() * Math.PI * 2;
             return this.pos = boundPos;
@@ -89,7 +92,7 @@ public class Ant {
     }
 
     public boolean isInNest() {
-        return new Vec(this.sim.w / 2, this.sim.h).sub(this.pos).mag() < 10;
+        return new Vec(SettingsProperties.instance.canvasWidth.getValue().doubleValue() / 2, SettingsProperties.instance.canvasHeight.getValue().doubleValue()).sub(this.pos).mag() < 10;
     }
 
     public boolean isHunting() {
@@ -98,6 +101,7 @@ public class Ant {
 
 
     public void draw() {
+
     }
 }
 

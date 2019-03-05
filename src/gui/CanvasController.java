@@ -1,21 +1,21 @@
 package gui;
 
 import com.sun.scenario.Settings;
+import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import layers.Food;
-import layers.FoodTrail;
-import layers.Layer;
-import layers.NestTrail;
+import javafx.scene.paint.Paint;
+import layers.*;
 import sample.SettingsProperties;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class CanvasController {
+public class CanvasController implements Initializable {
     public Canvas canvas;
-
 
     public Canvas getCanvas() {
         return canvas;
@@ -23,7 +23,9 @@ public class CanvasController {
 
     public void clear() {
         GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+        graphicsContext2D.setFill(Color.BLACK);
         graphicsContext2D.fill();
+
     }
 
     public void drawLayers(List<Layer> layers) {
@@ -46,8 +48,32 @@ public class CanvasController {
                     blue += 2.5 * foodTrail.getBuffer(i);
                     green += 1.7 * foodTrail.getBuffer(i);
                 }
-                graphicsContext2D.getPixelWriter().setColor(i,j,new Color(red,green,blue,1));
+                graphicsContext2D.getPixelWriter().setColor(i,j,Color.rgb((int)red,(int) green,(int)blue,1d));
             }
         }
+    }
+
+    public void drawAnt(Ant ant){
+        GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
+        graphicsContext2D.save();
+        graphicsContext2D.setFill(Color.WHITE);
+        graphicsContext2D.beginPath();
+        //graphicsContext2D.translate(ant.getPos().x*SettingsProperties.instance.scaling.getValue().doubleValue(),);
+        graphicsContext2D.arc(ant.getPos().x, ant.getPos().y,
+                SettingsProperties.instance.scaling.getValue().doubleValue(),
+                SettingsProperties.instance.scaling.getValue().doubleValue(),
+                0d,
+                Math.PI*2);
+        graphicsContext2D.fill();
+        System.out.println(ant.getPos().x+" "+ ant.getPos().y);
+        graphicsContext2D.restore();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        SettingsProperties.instance.canvasHeight.setValue(canvas.getHeight());
+        canvas.heightProperty().bindBidirectional(SettingsProperties.instance.canvasHeight);
+        SettingsProperties.instance.canvasWidth.setValue(canvas.getWidth());
+        canvas.widthProperty().bindBidirectional(SettingsProperties.instance.canvasWidth);
     }
 }

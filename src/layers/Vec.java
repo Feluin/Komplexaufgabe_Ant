@@ -12,8 +12,9 @@ public class Vec {
     }
 
     public Vec(Double x, Double y) {
-        this.x = x != null ? x : 0;
-        this.y = y != null ? y : 0;
+        this.x = x != null ? x : 0D;
+        this.y = y != null ? y : 0D;
+        this.z=0D;
     }
 
     public Vec() {
@@ -81,7 +82,7 @@ public class Vec {
     }
 
     public boolean eq(Vec o) {
-        return o.x == this.x && o.y == this.y && o.z == this.z;
+        return o.x.equals(this.x) && o.y.equals(this.y) && o.z.equals(this.z);
     }
 
     public static Vec fromAngleDist(Double angle, Double dist) {
