@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<GridPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SettingsController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="140.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="309.0" minWidth="10.0" prefWidth="252.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="125.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="317.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="372.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <Label text="Show Ants:">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" fx:id="showAntSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="Number of Ants" GridPane.rowIndex="1">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="numberOfAntSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="Simulation Speed" GridPane.rowIndex="2">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="simulationSpeedSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="ant steering speed" GridPane.rowIndex="3">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="antSteeringSpeedSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="Nest trail fallof rate" GridPane.rowIndex="4">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="nestTrailFallofRateSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="Nest trail fade rate" GridPane.rowIndex="5">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="nestTrailFadeRateSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="food trail fallof rate" GridPane.rowIndex="6">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="foodTrailFallofRateSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="food trail fade rate" GridPane.rowIndex="7" fx:id="foodTrailFadeRateSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+        <Label text="Jitter Amount" GridPane.rowIndex="8">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Label>
+        <Slider GridPane.columnIndex="1" GridPane.rowIndex="8" fx:id="jitterAmountSlider">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </Slider>
+    </children>
+</GridPane>
+

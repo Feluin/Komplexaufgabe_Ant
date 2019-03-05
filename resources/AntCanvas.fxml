@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.canvas.Canvas?>
+<Canvas fx:controller="gui.CanvasController" fx:id="canvas" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" height="800.0" width="800.0"/>
