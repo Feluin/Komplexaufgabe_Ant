@@ -15,7 +15,7 @@ public class Ant {
         this.sim = sim;
         this.pos = pos != null ? pos : new Vec();
         this.angle = Math.random() * Math.PI * 2;
-        this.speed = (Math.random() * 0.2 + 0.8) * Config.instance.getScale() * 0.4;
+        this.speed = (Math.random() * 0.2 + 0.8) * sample.SettingsProperties.instance.getScale() * 0.4;
         this.stomach = 0;
         this.homeRecency = 0;
         this.age = 0;
@@ -24,7 +24,7 @@ public class Ant {
     public Double sniff(Layer layer) {
         Double antennaAngle, antennaDist, leftSample, rightSample;
         Vec antennaLeftPos, antennaRightPos;
-        antennaDist = 3d * Config.instance.getScale();
+        antennaDist = 3d * sample.SettingsProperties.instance.getScale();
         antennaAngle = Math.PI / 4d;
         antennaLeftPos = this.pos.get().add(Vec.fromAngleDist(this.angle + antennaAngle, antennaDist));
         antennaRightPos = this.pos.get().add(Vec.fromAngleDist(this.angle - antennaAngle, antennaDist));
@@ -45,8 +45,8 @@ public class Ant {
         int newStomach;
 
         this.age++;
-        this.stomach *= 1 - Config.instance.getFoodTrailFalloffRate();
-        this.homeRecency *= 1 - Config.instance.getNestFalloffRate();
+        this.stomach *= 1 - sample.SettingsProperties.instance.getFoodTrailFalloffRate();
+        this.homeRecency *= 1 - sample.SettingsProperties.instance.getNestFalloffRate();
         if (this.isInNest()) {
             this.stomach = 0;
             this.homeRecency = 1;
@@ -64,13 +64,13 @@ public class Ant {
         this.sim.layers.foodtrail.mark(this.pos, this.stomach * 0.01);
         this.sim.layers.nesttrail.mark(this.pos, this.homeRecency * 0, 1);
         if (reading > 0) {
-            this.angle += Config.instance.getAntTurnSpeed();
+            this.angle += sample.SettingsProperties.instance.getAntTurnSpeed();
         }
         if (reading < 0) {
-            this.angle -= Config.instance.getAntTurnSpeed();
+            this.angle -= sample.SettingsProperties.instance.getAntTurnSpeed();
         }
         jitterAmount = Math.max(0, 1 - this.sim.layers.foodtrail.sample(this.pos));
-        this.angle += (Math.random() - 0.5) * 2 * jitterAmount * Config.instance.getJitterMagnitude();
+        this.angle += (Math.random() - 0.5) * 2 * jitterAmount * sample.SettingsProperties.instance.getJitterMagnitude();
         this.pos.add(Vec.fromAngleDist(this.angle, this.speed));
         boundPos = this.pos.get().bound(0, 0, 0, this.sim.w, this.sim.h, 0);
         if (!boundPos.eq(this.pos)) {

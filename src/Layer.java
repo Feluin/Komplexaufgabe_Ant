@@ -13,8 +13,8 @@ public class Layer {
         double ref;
         int _i, i;
         this.sim = sim;
-        this.w = ~~(this.sim.w / Config.instance.getScale());
-        this.h = ~~(this.sim.h / Config.instance.getScale());
+        this.w = ~~(this.sim.w / sample.SettingsProperties.instance.getScale());
+        this.h = ~~(this.sim.h / sample.SettingsProperties.instance.getScale());
 
         for( i = _i = 0, ref = this.w * this.h; 0 <= ref ? _i < ref : _i > ref; i = 0 <= ref ? ++_i : --_i) {
             this.buffer.add(this.initCell(i % this.w, Math.floor(i / this.h)));
