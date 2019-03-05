@@ -1,7 +1,9 @@
+package layers;
+
 public class Vec {
-    private Double x;
-    private Double y;
-    private Double z;
+    public Double x;
+    public Double y;
+    public Double z;
 
     public Vec(Double x, Double y, Double z) {
         this.x = x != null ? x : 0;

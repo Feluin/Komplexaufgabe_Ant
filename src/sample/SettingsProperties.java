@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleObjectProperty;
 public enum SettingsProperties {
     instance;
 
-   //public int scale = 4;
     public Property<Number> num_ants=new SimpleObjectProperty<>();
     public Property<Number> speed=new SimpleObjectProperty<>();
     public Property<Number> antTurnSpeed=new SimpleObjectProperty<>();
@@ -16,4 +15,7 @@ public enum SettingsProperties {
     public Property<Number> foodTrailFalloffRate=new SimpleObjectProperty<>();
     public Property<Number> nestTrailFadeRate=new SimpleObjectProperty<>();
     public Property<Number> foodTrailFadeRate=new SimpleObjectProperty<>();
+    public Property<Number> scaling=new SimpleObjectProperty<>();
+    public Property<Number> canvasHeight=new SimpleObjectProperty<>();
+    public Property<Number> canvasWidth=new SimpleObjectProperty<>();
 }
