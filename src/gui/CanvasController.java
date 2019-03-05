@@ -59,12 +59,14 @@ public class CanvasController implements Initializable {
         graphicsContext2D.setFill(Color.WHITE);
         graphicsContext2D.beginPath();
         //graphicsContext2D.translate(ant.getPos().x*SettingsProperties.instance.scaling.getValue().doubleValue(),);
-        graphicsContext2D.arc(ant.getPos().x, ant.getPos().y,
+        graphicsContext2D.arc(ant.getPos().x,
+                ant.getPos().y,
                 SettingsProperties.instance.scaling.getValue().doubleValue(),
                 SettingsProperties.instance.scaling.getValue().doubleValue(),
                 0d,
-                Math.PI*2);
+                100);
         graphicsContext2D.fill();
+        graphicsContext2D.stroke();
         System.out.println(ant.getPos().x+" "+ ant.getPos().y);
         graphicsContext2D.restore();
     }
