@@ -76,7 +76,7 @@ public class Vec {
 
     public Vec bound( Double x1, Double y1, Double z1, Double x2, Double y2, Double z2) {
         this.x = Math.min(x2, Math.max(x1, this.x));
-        this.y = Math.min(y2, Math.max(y2, this.y));
+        this.y = Math.min(y2, Math.max(y1, this.y));
         this.z = Math.min(z2, Math.max(z1, this.z));
         return this;
     }
