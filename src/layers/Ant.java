@@ -1,6 +1,7 @@
 package layers;
 
 import layers.Layer;
+import sample.MersenneTwister;
 import sample.SettingsProperties;
 
 public class Ant {
@@ -12,16 +13,18 @@ public class Ant {
     private Double stomach;
     private int homeRecency;
     private int age;
+    private MersenneTwister random;
 
     public Vec getPos() {
         return pos;
     }
 
-    public Ant(AntSimulation sim, Vec pos) {
+    public Ant(AntSimulation sim, Vec pos,long seed) {
+        random=new MersenneTwister(seed);
         this.sim = sim;
         this.pos = pos != null ? pos : new Vec();
-        this.angle = Math.random() * Math.PI * 2;
-        this.speed = (Math.random() * 0.2 + 0.8) * SettingsProperties.instance.scaling * 0.4;
+        this.angle = random.nextDouble() * Math.PI * 2;
+        this.speed = (random.nextDouble() * 0.2 + 0.8) * SettingsProperties.instance.scaling * 0.4;
         this.stomach = 0D;
         this.homeRecency = 0;
         this.age = 0;
@@ -69,7 +72,6 @@ public class Ant {
         }
         this.sim.getFoodTrailLayer().mark(this.pos, this.stomach * 0.01);
         this.sim.getNestTrailLayer().mark(this.pos, this.homeRecency * 0.1);
-        System.out.println(pos.x+" "+pos.y+ homeRecency*0.1);
         if (reading > 0) {
             this.angle += SettingsProperties.instance.antTurnSpeed;
         }
@@ -77,11 +79,11 @@ public class Ant {
             this.angle -= sample.SettingsProperties.instance.antTurnSpeed;
         }
         jitterAmount = Math.max(0, 1 - this.sim.getFoodTrailLayer().sample(this.pos));
-        this.angle += (Math.random() - 0.5) * 2 * jitterAmount * SettingsProperties.instance.jitterMagnitude;
+        this.angle += (random.nextDouble() - 0.5) * 2 * jitterAmount * SettingsProperties.instance.jitterMagnitude;
         this.pos.add(Vec.fromAngleDist(this.angle, this.speed));
         boundPos = this.pos.get().bound(0D, 0d, 0d, SettingsProperties.instance.canvasHeight-1D, SettingsProperties.instance.canvasWidth-1D, 0d);
         if (!boundPos.eq(this.pos)) {
-            this.angle = Math.random() * Math.PI * 2;
+            this.angle = random.nextDouble() * Math.PI * 2;
             return this.pos = boundPos;
         }
 

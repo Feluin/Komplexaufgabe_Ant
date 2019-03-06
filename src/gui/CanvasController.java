@@ -23,7 +23,7 @@ public class CanvasController implements Initializable {
 
     public void clear() {
         GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
-        graphicsContext2D.setFill(Color.BLACK);
+        graphicsContext2D.setFill(Color.WHITE);
         graphicsContext2D.fill();
 
     }
@@ -48,7 +48,7 @@ public class CanvasController implements Initializable {
                     blue += 2.5 * foodTrail.getBuffer(i, j);
                     green += 1.7 * foodTrail.getBuffer(i, j);
                 }
-                graphicsContext2D.getPixelWriter().setColor(i, j, Color.rgb(Math.min(255, (int) red), Math.min(255, (int) green), Math.min(255, (int) blue), 1d));
+                graphicsContext2D.getPixelWriter().setColor(i, j, Color.color(Math.min(1, red), Math.min(1,green), Math.min(1, blue), 1d));
             }
         }
     }

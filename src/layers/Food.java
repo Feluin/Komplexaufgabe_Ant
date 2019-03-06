@@ -3,23 +3,28 @@ package layers;
 import sample.MersenneTwister;
 import sample.SettingsProperties;
 
+import java.util.Random;
 
 public class Food extends Layer {
 
+    private Random random=new Random();
     @Override
     public void update() {
         if (AntSimulation.frame % 10 == 0) {
-            super.blur(0.02);
+            super.blur(0.002);
         }
-        if (new MersenneTwister().nextDouble() < 0.01) {
-            mark(new Vec(new MersenneTwister().nextDouble() * SettingsProperties.instance.canvasWidth ,
-                    new MersenneTwister().nextDouble() * SettingsProperties.instance.canvasHeight), 100);
+        if (random.nextDouble() < 0.01) {
+            Vec data=new Vec(random.nextDouble() * SettingsProperties.instance.canvasWidth ,
+                random.nextDouble() * SettingsProperties.instance.canvasHeight);
+            mark(data, 100);
+            System.out.println(data.x+" "+data.y);
 
         }
     }
 
     @Override
     public Double initCell(double x, double y) {
-        return new MersenneTwister().nextDouble() < 0.002 ? 100d : 0d;
+        if(random==null)random=new Random();
+        return random.nextDouble() < 0.002 ? 100d : 0d;
     }
 }

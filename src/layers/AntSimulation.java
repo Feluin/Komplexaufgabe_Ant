@@ -26,7 +26,7 @@ public class AntSimulation {
             public void run() {
                 update();
             }
-        },1000,100);
+        },1000,500);
 
     }
 
@@ -40,7 +40,7 @@ public class AntSimulation {
         if (ants.size() < SettingsProperties.instance.num_ants) {
             for (int i = ants.size(); i < SettingsProperties.instance.num_ants; i++) {
 
-                ants.add(new Ant(this, new Vec(SettingsProperties.instance.canvasHeight-1d, SettingsProperties.instance.canvasWidth/ 2d)));
+                ants.add(new Ant(this, new Vec(SettingsProperties.instance.canvasWidth/ 2d,SettingsProperties.instance.canvasHeight-1d),System.nanoTime()%(i+1)));
             }
         } else {
             ants = ants.stream().limit(SettingsProperties.instance.num_ants).collect(Collectors.toList());

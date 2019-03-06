@@ -1,9 +1,13 @@
 <component name="libraryTable">
   <library name="openjfx-11.0.2_windows-x64_bin-sdk">
     <CLASSES>
-      <root url="jar://$Path_To_FX$!/" />
+      <root url="file://$PATH_TO_FX$" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PATH_TO_FX$" />
+    </SOURCES>
+    <jarDirectory url="file://$PATH_TO_FX$" recursive="false" />
+    <jarDirectory url="file://$PATH_TO_FX$" recursive="false" type="SOURCES" />
   </library>
 </component>
