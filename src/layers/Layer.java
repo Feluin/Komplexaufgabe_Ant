@@ -1,5 +1,6 @@
 package layers;
 
+import com.sun.scenario.Settings;
 import sample.SettingsProperties;
 
 import java.util.ArrayList;
@@ -11,115 +12,117 @@ import static sample.SettingsProperties.instance;
 public abstract class Layer {
     Integer width;
     Integer height;
-    List<List<Double>> buffer = new ArrayList<>();
+    Double[][]  buffer= new Double[0][0];
 
     //sim ist die Größe von der UI
     public Layer() {
 
-        this.width = instance.getCanvasWidthInt() / instance.scaling.getValue().intValue();
-        this.height = instance.getCanvasHeightInt() / instance.scaling.getValue().intValue();
+        this.width = instance.canvasWidth/ instance.scaling;
+        this.height = instance.canvasHeight/ instance.scaling;
+        //updates
         initCells();
-        instance.scaling.addListener((observableValue, number, t1) -> {
-            this.width = instance.getCanvasWidthInt() / instance.scaling.getValue().intValue();
-            this.height = instance.getCanvasHeightInt() / instance.scaling.getValue().intValue();
-            initCells();
-        });
-        instance.canvasHeight.addListener((observableValue, number, t1) -> {
-            this.width = instance.getCanvasWidthInt() / instance.scaling.getValue().intValue();
-            this.height = instance.getCanvasHeightInt() / instance.scaling.getValue().intValue();
-            initCells();
-        });
-        instance.canvasWidth.addListener((observableValue, number, t1) -> {
-            this.width = instance.getCanvasWidthInt() / instance.scaling.getValue().intValue();
-            this.height = instance.getCanvasHeightInt() / instance.scaling.getValue().intValue();
-
-            initCells();
-        });
-
     }
 
     private void initCells() {
-        for (int i = buffer.size() / this.width; i <= this.width; i++) {
-            buffer.add(new ArrayList<>());
-        }
-        for (int i = 0; i <= this.width; i++) {
-
-            for (int j = buffer.get(i).size() / this.width; j <= this.height; j++) {
-                buffer.get(i).add(initCell(i,j));
+        Double[][] newbuffer= new Double[height][width];
+        for (int y = 0; y < newbuffer.length; y++) {
+            Double[] row = newbuffer[y];
+            for (int x = 0; x < row.length; x++) {
+                if (y<buffer.length&&x<buffer[y].length){
+                    newbuffer[y][x]=buffer[y][x];
+                }else {
+                    newbuffer[y][x]=initCell(x,y);
+                }
             }
-        }
 
+        }
+        buffer=newbuffer;
     }
 
     public Double initCell(double x, double y) {
         return 0.0;
     }
 
-    public List<List<Double>> mul(Double n) {
-        List<List<Double>> buffer = new ArrayList<>(this.buffer);
-        buffer.forEach(doubles -> doubles = doubles.stream().map(aDouble -> aDouble * n).collect(Collectors.toList()));
+    public Double[][] mul(Double n) {
+
+        for (int y = 0; y < buffer.length; y++) {
+            Double[] row = buffer[y];
+            for (int x = 0; x < row.length; x++) {
+               buffer[y][x]= buffer[y][x]*n;
+            }
+
+        }
         return buffer;
     }
 
-    public List<List<Double>> add(Double n) {
-        List<List<Double>> buffer = new ArrayList<>(this.buffer);
-        buffer.forEach(doubles -> doubles = doubles.stream().map(aDouble -> aDouble + n).collect(Collectors.toList()));
+    public Double[][] add(Double n) {
+        for (int y = 0; y < buffer.length; y++) {
+            Double[] row = buffer[y];
+            for (int x = 0; x < row.length; x++) {
+                buffer[y][x]= buffer[y][x]+n;
+            }
+        }
         return buffer;
     }
 
     public void mark(Vec pos, double amount) {
-        int index = posToIndex(pos);
-        buffer.get(index / height).set(index % height, getBuffer(index) + amount);
+        getBuffer(pos.x.intValue(),pos.y.intValue());
+        buffer[Math.min(height,Math.max(pos.y.intValue(),0)) / SettingsProperties.instance.scaling]
+                [Math.min(width,Math.max(pos.x.intValue(),0))/ SettingsProperties.instance.scaling]=getBuffer(pos.x.intValue(),pos.y.intValue())+amount;
+
     }
 
     public Double sample(Vec pos) {
-        int index = posToIndex(pos);
-        return getBuffer(index) != null ? getBuffer(index) : 0d;
+        return getBuffer(pos.x.intValue(),pos.y.intValue())!=null ? getBuffer(pos.x.intValue(),pos.y.intValue()) : 0d;
     }
 
     public Double take(Vec pos, double amount) {
-        int index = posToIndex(pos);
-        Double takeamount = Math.min(getBuffer(index) != null ? getBuffer(index) : 0d, amount);
-        buffer.get(index / height).set(index % height, getBuffer(index) - takeamount);
+
+        Double takeamount = Math.min(getBuffer(pos.x.intValue(),pos.y.intValue()) != null ? getBuffer(pos.x.intValue(),pos.y.intValue()) : 0d, amount);
+        buffer[Math.min(height,Math.max(pos.y.intValue(),0)) / SettingsProperties.instance.scaling]
+                [Math.min(width,Math.max(pos.x.intValue(),0))/ SettingsProperties.instance.scaling]=getBuffer(pos.x.intValue(),pos.y.intValue())-amount;
+
         return takeamount;
     }
 
-
-    public Integer posToIndex(Vec pos) {
-        pos = pos.get().div(SettingsProperties.instance.scaling.getValue().doubleValue());
-        return (int) (Math.floor(pos.x) + Math.floor(pos.y) * width);
-    }
+    public Double[][] blur(double n) {
 
 
-    public List<List<Double>> blur(double n) {
-        List<List<Double>> newBuffer = new ArrayList<>();
-        Integer index = 0;
-        for (int x = 0; x < buffer.size(); x++) {
-
-            List<Double> doubles = buffer.get(x);
-            List<Double> newdoubles = new ArrayList<>();
-            for (int y = 0; y < doubles.size(); y++) {
+        for (int y = 0; y < buffer.length; y++) {
+            Double[] row = buffer[y];
+            for (int x = 0; x < row.length; x++) {
                 Double sumNeighbors = 0d;
-                Double aDouble = doubles.get(y);
+                Double aDouble = row[x];
                 for (int x1 = Math.max(0, x - 1); x1 < Math.min(width - 1, x + 1); x1++) {
                     for (int y1 = Math.max(0, y - 1); y1 < Math.min(height - 1, x + 1); y1++) {
                         sumNeighbors += aDouble * n;
                     }
                 }
                 sumNeighbors += aDouble * (1 - n);
-                newdoubles.add(((9 * n + (1 - n))) != 0 ? sumNeighbors / (9 * n + (1 - n)) : 0);
+                buffer[y][x]=(((9 * n + (1 - n))) != 0 ? sumNeighbors / (9 * n + (1 - n)) : 0);
             }
-            newBuffer.add(newdoubles);
 
         }
-        return this.buffer = newBuffer;
+
+        return this.buffer;
+    }
+    public void printlayer(){
+        for (int y = 0; y < buffer.length; y++) {
+            Double[] row = buffer[y];
+            for (int x = 0; x < row.length; x++) {
+               System.out.print(buffer[y][x].intValue()+" ");
+            }
+            System.out.println();
+
+        }
     }
 
-    public Double getBuffer(int i) {
-        int x = i / width;
-        int y = i % width;
-        return buffer.size()>x&& buffer.get(x).size()>y?buffer.get(x).get(y):0D;
-    }
 
     public abstract void update();
+
+    public Double getBuffer(int x, int y) {
+        x=Math.min(SettingsProperties.instance.canvasWidth-1,Math.max(x,0))/ SettingsProperties.instance.scaling;
+        y=Math.min(SettingsProperties.instance.canvasHeight-1,Math.max(y,0))/ SettingsProperties.instance.scaling;
+        return buffer[y][x];
+    }
 }

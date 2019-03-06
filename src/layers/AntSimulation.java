@@ -26,7 +26,7 @@ public class AntSimulation {
             public void run() {
                 update();
             }
-        },1000,1000);
+        },1000,100);
 
     }
 
@@ -37,19 +37,19 @@ public class AntSimulation {
     }
 
     public void createandRemoveAnts() {
-        if (ants.size() < SettingsProperties.instance.num_ants.getValue().intValue()) {
-            for (int i = ants.size(); i < SettingsProperties.instance.num_ants.getValue().intValue(); i++) {
+        if (ants.size() < SettingsProperties.instance.num_ants) {
+            for (int i = ants.size(); i < SettingsProperties.instance.num_ants; i++) {
 
-                ants.add(new Ant(this, new Vec(SettingsProperties.instance.getCanvasHeightInt() / 2d, SettingsProperties.instance.getCanvasWidthInt()-1d)));
+                ants.add(new Ant(this, new Vec(SettingsProperties.instance.canvasHeight-1d, SettingsProperties.instance.canvasWidth/ 2d)));
             }
         } else {
-            ants = ants.stream().limit(SettingsProperties.instance.num_ants.getValue().intValue()).collect(Collectors.toList());
+            ants = ants.stream().limit(SettingsProperties.instance.num_ants).collect(Collectors.toList());
         }
     }
 
     public void update() {
         createandRemoveAnts();
-        for (int i = 0; i < SettingsProperties.instance.speed.getValue().intValue(); i++) {
+        for (int i = 0; i < SettingsProperties.instance.speed; i++) {
             layers.values().forEach(Layer::update);
             ants.forEach(Ant::update);
         }
@@ -64,7 +64,7 @@ public class AntSimulation {
     public void draw() {
         canvasController.clear();
         canvasController.drawLayers(new ArrayList<>(layers.values()));
-        if (SettingsProperties.instance.showAnts.getValue().intValue() == 1)
+        if (SettingsProperties.instance.showAnts == 1)
             ants.forEach(ant -> canvasController.drawAnt(ant));
 
     }

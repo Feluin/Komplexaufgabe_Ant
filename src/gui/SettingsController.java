@@ -38,47 +38,47 @@ public class SettingsController implements Initializable
         } catch (IOException e) {
             e.printStackTrace();
         }
-        showAntSlider.valueProperty().bindBidirectional(SettingsProperties.instance.showAnts);
+        showAntSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.showAnts=observableValue.getValue().intValue());
         //showAntSlider.valueProperty().addListener((observableValue, number, t1) -> {});
         numberOfAntSlider.setMax(Double.valueOf(initconfig.getProperty("num_ants_max")));
         numberOfAntSlider.setMin(Double.valueOf(initconfig.getProperty("num_ants_min")));
         setSliderConfig(numberOfAntSlider);
-        numberOfAntSlider.valueProperty().bindBidirectional(SettingsProperties.instance.num_ants);
+        numberOfAntSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.num_ants=observableValue.getValue().intValue());
 
         simulationSpeedSlider.setMin(Double.valueOf(initconfig.getProperty("stepsPerFrame_min")));
         simulationSpeedSlider.setMax(Double.valueOf(initconfig.getProperty("stepsPerFrame_max")));
         setSliderConfig(simulationSpeedSlider);
-        simulationSpeedSlider.valueProperty().bindBidirectional(SettingsProperties.instance.speed);
+        simulationSpeedSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.speed=observableValue.getValue().doubleValue());
 
         antSteeringSpeedSlider.setMin(Double.valueOf(initconfig.getProperty("antTurnSpeed_min")));
         antSteeringSpeedSlider.setMax(Double.valueOf(initconfig.getProperty("antTurnSpeed_max")));
         setSliderConfig(antSteeringSpeedSlider);
-        antSteeringSpeedSlider.valueProperty().bindBidirectional(SettingsProperties.instance.antTurnSpeed);
+        antSteeringSpeedSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.antTurnSpeed=observableValue.getValue().doubleValue());
 
         nestTrailFallofRateSlider.setMin(Double.valueOf(initconfig.getProperty("nestFalloffRate_min")));
         nestTrailFallofRateSlider.setMax(Double.valueOf(initconfig.getProperty("nestFalloffRate_max")));
         setSliderConfig(nestTrailFallofRateSlider);
-        nestTrailFallofRateSlider.valueProperty().bindBidirectional(SettingsProperties.instance.nestFalloffRate);
+        nestTrailFallofRateSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.nestFalloffRate=observableValue.getValue().doubleValue());
 
         nestTrailFadeRateSlider.setMin(Double.valueOf(initconfig.getProperty("nestTrailFadeRate_min")));
         nestTrailFadeRateSlider.setMax(Double.valueOf(initconfig.getProperty("nestTrailFadeRate_max")));
         setSliderConfig(nestTrailFadeRateSlider);
-        nestTrailFadeRateSlider.valueProperty().bindBidirectional(SettingsProperties.instance.nestTrailFadeRate);
+        nestTrailFadeRateSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.nestTrailFadeRate=observableValue.getValue().doubleValue());
 
         jitterAmountSlider.setMin(Double.valueOf(initconfig.getProperty("jitterMagnitude_min")));
         jitterAmountSlider.setMax(Double.valueOf(initconfig.getProperty("jitterMagnitude_max")));
         setSliderConfig(jitterAmountSlider);
-        jitterAmountSlider.valueProperty().bindBidirectional(SettingsProperties.instance.jitterMagnitude);
+        jitterAmountSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.jitterMagnitude=observableValue.getValue().doubleValue());
 
         foodTrailFallofRateSlider.setMin(Double.valueOf(initconfig.getProperty("foodTrailFalloffRate_min")));
         foodTrailFallofRateSlider.setMax(Double.valueOf(initconfig.getProperty("foodTrailFalloffRate_max")));
         setSliderConfig(foodTrailFallofRateSlider);
-        foodTrailFallofRateSlider.valueProperty().bindBidirectional(SettingsProperties.instance.foodTrailFalloffRate);
+        foodTrailFallofRateSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.foodTrailFalloffRate=observableValue.getValue().doubleValue());
 
         foodTrailFadeRateSlider.setMin(Double.valueOf(initconfig.getProperty("foodTrailFadeRate_min")));
         foodTrailFadeRateSlider.setMax(Double.valueOf(initconfig.getProperty("foodTrailFadeRate_max")));
         setSliderConfig(foodTrailFadeRateSlider);
-        foodTrailFadeRateSlider.valueProperty().bindBidirectional(SettingsProperties.instance.foodTrailFadeRate);
+        foodTrailFadeRateSlider.valueProperty().addListener((observableValue, number, t1) -> SettingsProperties.instance.foodTrailFadeRate=observableValue.getValue().doubleValue());
 
 
 
